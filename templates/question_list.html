@@ -1,11 +1,78 @@
 <!DOCTYPE html>
 <html>
+<style>
+#nav_menu ul {
+ list-style-type:none;
+ background-color:#6E6E6E;
+ padding:1px 5px 5px 1px;
+ float:right;
+}
+
+#nav_menu ul li {
+ display:inline;
+ border-left: 1px solid #c0c0c0;
+ padding: 0px 10px 0px 10px;
+ margin: 5px 0px 5px 0px;
+ color:#ffffff;
+ font-size:9pt;
+}
+
+#nav_menu ul li:first-child {
+ border-left: none;
+}
+
+#nav_menu a {
+ text-decoration:none;
+ color:#ffffff
+}
+
+#nav_menu a:hover {
+ color:#D4F4FA;
+ border-bottom:3px solid #5882FA;
+}
+ table{
+   text-align: center;
+ }
+ td{
+   width: 200px;
+   height: 80px;
+   border: 1px solid;
+ }
+ input{
+   text-align: center;
+
+   font-weight: bold;
+   color: #0101DF;
+ }
+</style>
 <head>
     <title>
         문제 목록 보기
     </title>
 </head>
 <body>
+<div id="nav_menu">
+<ul>
+<li><a href="/">홈</a></li>
+<li><a href="/question">문제 만들기</a></li>
+
+<li><a href="/question/view">문제 보기</a></li>
+<li><a href="/question/solve">문제 풀기</a></li>
+<li><a href="/incorrect_note/view">오답노트 보기</a></li>
+</ul>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<center>
+<h2>문제 목록 보기 페이지</h2>
+<br>
+<br>
+<br>
+<br>
+<br>
     <form method="POST" action="/incorrct_node">
     </form>
     <div>
@@ -13,13 +80,30 @@
             {% if result == None %}
                 <h5> 아직 아무 문제도 입력이 안되었습니다. </h5>
             {% else %}
-                {% for i in result %}
-                    {%print(i)%}
-                    <br>
-                {%endfor %}
-            {% endif %}
+        <table>
+            <tr>
+                <th>출제자 번호</th>
+                <th>과목명</th>
+                <th>주제</th>
+                <th>내용</th>
+            </tr>
+
+
+                    {% for i in result %}
+            <tr>
+                        <td>{%print(i[1])%}</td>
+                        <td>{%print(i[2])%}</td>
+                        <td>{%print(i[3])%}</td>
+                        <td>{%print(i[4])%}</td>
+            </tr>
+                    {% endfor %}
+                {% endif %}
+
+    </table>
+
         </p>
     </div>
+    </center>
 </body>
 </html>
 

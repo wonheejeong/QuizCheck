@@ -1,9 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>home</title>
-</head>
 <style>
 #nav_menu ul {
  list-style-type:none;
@@ -49,7 +45,13 @@
    color: #0101DF;
  }
 </style>
+<head>
+    <meta charset="UTF-8">
+    <title>문제 만들기 성공 페이지</title>
+</head>
 <body>
+
+
 <div id="nav_menu">
 <ul>
 <li><a href="/">홈</a></li>
@@ -60,19 +62,6 @@
 <li><a href="/incorrect_note/view">오답노트 보기</a></li>
 </ul>
 </div>
-<br>
-<br>
-<br>
-<br>
-<center>
-{%if user_email%}  <!-- 세션으로 로그인 된 것이 확인 될 경우에만 뜨는 안내멘트 및 로그아웃 버튼 @YR-->
-{{user_email}}<b>님, 안녕하세요!</b><br><br> <button type="button" onclick="location.href='/logout'">로그아웃</button>
-{%else%}   <!-- 세션으로 로그인 현황이 확인되지 않을 경우 회원가입 및 로그인 버튼으로 안내 @YR-->
-<button type="button" onclick="location.href='/register'" >회원가입</button>
-<button type="button" onclick="location.href='/login'" >로그인</button>
-{%endif%}
-
-
-</center>
+{%print(name)%} 님 문제 만들기 성공!
 </body>
 </html>

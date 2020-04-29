@@ -1,4 +1,6 @@
 from flask_wtf import FlaskForm
+from flask import session
+from models import dbb #sqlAlchemy용
 from models import User
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, EqualTo
@@ -17,9 +19,20 @@ class LoginForm(FlaskForm):
             user_email = form['user_email'].data
             user_pw = field.data
             user = User.query.filter_by(user_email=user_email).first()
-            if user.user_pw != user_pw:
-                # raise ValidationError(message % d)
+            if user !=None:
+                if  user.user_pw != user_pw  :
+                    # raise ValidationError(message % d)
+                    raise ValueError('Wrong user_pw')
+                else:
+                    session['user_email'] = user_email
+                    for_id = dbb.session.query(User.user_id).filter(User.user_email == session['user_email']).all()
+                    user_id = ''
+                    for what in for_id:
+                        user_id = what[0]
+                    session['user_id'] = user_id
+            else:
                 raise ValueError('Wrong user_pw')
+
     user_email = StringField('user_email', validators=[DataRequired()])
     user_pw = PasswordField('user_pw', validators=[DataRequired(), UserPassword()])
 

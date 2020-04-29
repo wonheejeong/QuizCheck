@@ -1,34 +1,101 @@
 <!DOCTYPE html>
 <html>
+<style>
+#nav_menu ul {
+ list-style-type:none;
+ background-color:#6E6E6E;
+ padding:1px 5px 5px 1px;
+ float:right;
+}
+
+#nav_menu ul li {
+ display:inline;
+ border-left: 1px solid #c0c0c0;
+ padding: 0px 10px 0px 10px;
+ margin: 5px 0px 5px 0px;
+ color:#ffffff;
+ font-size:9pt;
+}
+
+#nav_menu ul li:first-child {
+ border-left: none;
+}
+
+#nav_menu a {
+ text-decoration:none;
+ color:#ffffff
+}
+
+#nav_menu a:hover {
+ color:#D4F4FA;
+ border-bottom:3px solid #5882FA;
+}
+ table{
+   text-align: center;
+ }
+ td{
+   width: 80%px;
+   height: 80px;
+   border: 1px solid;
+ }
+ input{
+   text-align: center;
+
+   font-weight: bold;
+   color: #0101DF;
+ }
+</style>
 <head>
     <title>
         문제 풀기
     </title>
 </head>
 <body>
+<div id="nav_menu">
+<ul>
+<li><a href="/">홈</a></li>
+<li><a href="/question">문제 만들기</a></li>
+
+<li><a href="/question/view">문제 보기</a></li>
+<li><a href="/question/solve">문제 풀기</a></li>
+<li><a href="/incorrect_note/view">오답노트 보기</a></li>
+</ul>
+</div>
+<br>
+<br>
+<br>
+<br>
+<center>
 {% if score == None %}
 <form method="POST" action="/grade">
     <h1> 랜덤 10개의 문제를 풀어보자! </h1>
     <h3> 빈칸에 들어갈 내용을 입력해주세요. </br></h3>
     <h5> ex) 차세대 네트워크는 (고도화)된 통신 서비스를 제공하는 (미래형 통신 인프라)이다 => 고도화/미래형 통신 인프라 </h5>
-
+    {% if result|length ==0%}
+     사용자가 만든 문제가 없습니다.
+    {%else%}
+    <table>
+        <tr>
+            <th>문제</th>
+            <th>입력</th>
+        </tr>
     {% for i in result%}
 
-    <p>문제 : </p>
+    <tr>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 
-    {%print( i[1])%}
-    <br>
-    <input name="user_answer" type="text">
-    <input type="hidden" name="real_question" value="{%print(i[1])%}">
+        <td> {%print( i[1])%}</td>
+        <td><input name="user_answer" type="text"></td>
+        <input type="hidden" name="real_question" value="{%print(i[1])%}">
     <input type="hidden" name="q_id" value="{%print(i[2])%}">
     <input type="hidden" name="real_answer" value="{%print(i[0])%}">
-
-    <br>
+    </tr>
 
     {% endfor %}
+    </table>
 
     <button type="submit" onclick="">채점 결과 확인하기</button>
-
+{% endif%}
 
 
 </form>
@@ -60,6 +127,8 @@
 
 
     </table>
+
+    </center>
 </body>
 
 </html>
