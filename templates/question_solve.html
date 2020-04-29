@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        문제 풀기
+    </title>
+</head>
+<body>
+{% if score == None %}
+<form method="POST" action="/grade">
+    <h1> 랜덤 10개의 문제를 풀어보자! </h1>
+    <h3> 빈칸에 들어갈 내용을 입력해주세요. </br></h3>
+    <h5> ex) 차세대 네트워크는 (고도화)된 통신 서비스를 제공하는 (미래형 통신 인프라)이다 => 고도화/미래형 통신 인프라 </h5>
+
+    {% for i in result%}
+
+    <p>문제 : </p>
+
+    {%print( i[1])%}
+    <br>
+    <input name="user_answer" type="text">
+    <input type="hidden" name="real_question" value="{%print(i[1])%}">
+    <input type="hidden" name="q_id" value="{%print(i[2])%}">
+    <input type="hidden" name="real_answer" value="{%print(i[0])%}">
+
+    <br>
+
+    {% endfor %}
+
+    <button type="submit" onclick="">채점 결과 확인하기</button>
+
+
+
+</form>
+
+
+ {% else %}
+
+    <h1>채점 결과 입니다!</h1>
+    <table>
+        <tr>
+            <th>문제 번호</th>
+            <th>입력</th>
+            <th>정답</th>
+            <th>채점</th>
+        </tr>
+
+
+                {% for i in score %}
+        <tr>
+                    <td>{%print(i[0])%}</td>
+                    <td>{%print(i[1])%}</td>
+                    <td>{%print(i[2])%}</td>
+                    <td>{%print(i[3])%}</td>
+</tr>
+                {% endfor %}
+            {% endif %}
+
+
+
+
+    </table>
+</body>
+
+</html>

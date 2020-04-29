@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        문제장 만들기
+    </title>
+     <meta name='viewport' content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+     </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+     </script>
+</head>
+<body>
+<div class="container">
+    <div class="row mt-5">
+        <h1> 나만의 문제장을 만들어보자! </h1>
+        <h3> 빈칸으로 만들고 싶은 부분을 (괄호)로 감춰주세요! </br></h3>
+        <h5> ex) 차세대 네트워크는 (고도화)된 통신 서비스를 제공하는 (미래형 통신 인프라)이다 </h5>
+         <!-- 사용자 이름 : <input type ="text" name ="q_user_id"> -->
+        {%if user_email%}
+        <p style="text-align:right">{{user_email}}님</p>
+        {%endif%}</div>
+    <div class="row mt-5">
+            <div class="col-12">
+                <form method="POST" >
+                    {{form.csrf_token}}
+                <!--form method="POST" action="/question/make"-->
+        <div class="form-group">
+        {{form.subject.label("과목")}}
+        {{form.subject(class="form-control", placeholder="과목")}}
+        </div>
+        <div class="form-group">
+        {{form.topic.label("소주제")}}
+        {{form.topic(class="form-control", placeholder="소주제")}}
+        </div>
+        <div class="form-group">
+        {{form.content.label("내용")}}
+        {{form.content(class="form-control", placeholder="내용")}}
+        </div>
+        <button type="submit" class="btn btn-primary">전송</button>
+    </form>
+</div>
+</div>
+</div>
+
+</body>
+</html>
+
+
+
+

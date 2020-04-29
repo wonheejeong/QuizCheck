@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+</head>
+<body>
+{%if user_email%}  <!-- 세션으로 로그인 된 것이 확인 될 경우에만 뜨는 안내멘트 및 로그아웃 버튼 @YR-->
+{{user_email}}<b>님, 안녕하세요!</b> <button type="button" onclick="location.href='/logout'">로그아웃</button>
+{%else%}   <!-- 세션으로 로그인 현황이 확인되지 않을 경우 회원가입 및 로그인 버튼으로 안내 @YR-->
+<button type="button" onclick="location.href='/register'" >회원가입</button>
+<button type="button" onclick="location.href='/login'" >로그인</button>
+{%endif%}
+<!--세션으로 user_id 받아와지는지 확인하기 위한 코드. 완성 되었을 경우 삭제하시오 @YR-->
+{%if user_id%}
+{{user_id}}<b>번째 횐님</b>
+{%endif%}
+<!-- 여기까지 -->
+
+<button type="button" onclick="location.href='/question'" >문제 만들기</button>
+<button type="button" onclick="location.href='/question/view'" >문제 보기</button>
+<button type="button" onclick="location.href='/question/solve'" >문제 풀기</button>
+<button type="button" onclick="location.href='/incorrect_note/view'" >오답노트 보기</button>
+
+
+
+
+
+</body>
+</html>
