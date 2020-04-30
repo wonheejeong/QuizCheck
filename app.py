@@ -10,8 +10,8 @@ app = Flask(__name__)
 # pymysql을 사용해 DB 연결
 db= pymysql.connect(host='localhost',
                      port=3306,
-                     user='root',
-                     passwd='password',
+                     user='test',
+                     passwd='passwd',
                      db='studyblank',
                      charset='utf8')
 
@@ -66,6 +66,8 @@ def logout():
 # 문제만들기 화면
 @app.route('/question', methods=['GET','POST'])
 def db_insert_q():
+    if 'user_email' not in session:
+        return redirect('/')
     form = QuestionForm()
 
     if form.validate_on_submit():
@@ -89,6 +91,8 @@ def db_insert_q():
 @app.route('/question/view')
 @app.route('/question/view/<int:q_user_id>')
 def view_question(q_user_id=None):
+    if 'user_email' not in session:
+        return redirect('/')
     if q_user_id ==None:
         sql = """SELECT * FROM question;"""
     else:
@@ -98,7 +102,7 @@ def view_question(q_user_id=None):
     cursor.execute(sql)
     result = cursor.fetchall()
 
-    return render_template('question_list.html', result =result)
+    return render_template('question_list.html', result =result, user_id= session['user_id'])
 
 
 
@@ -106,18 +110,20 @@ def view_question(q_user_id=None):
 # 오답노트 보기
 
 @app.route('/incorrect_note/view')
-@app.route('/incorrect_note/view/<int:a_user_id>')
-def view_incorrect_note(a_user_id = None, result = None):
-    if a_user_id ==None:
+def view_incorrect_note():
+    if 'user_email' not in session:
+        return redirect('/')
+    user_id = session['user_id']
+    if user_id ==None:
         result= None
     else:
-        sql = """SELECT a.user_answer, a.true_answer, q.content FROM answer a join question q on a.q_id =q.q_id where a_user_id = {a_user_id};""".format(a_user_id= a_user_id)
+        sql = """SELECT a.user_answer, a.true_answer, q.content FROM answer a join question q on a.q_id =q.q_id where a_user_id = {a_user_id};""".format(a_user_id= user_id)
 
         print(sql)
         cursor.execute(sql)
         result = cursor.fetchall()
 
-    return render_template('incorrect_list.html', a_user_id =a_user_id ,result = result)
+    return render_template('incorrect_list.html', user_id =user_id ,user_email = session['user_email'],result = result)
 
 @app.route('/incorrect_note', methods=['POST'])
 def incorrect_note(a_user_id=None):
@@ -134,6 +140,8 @@ def incorrect_note(a_user_id=None):
 @app.route('/question/solve')
 @app.route('/question/solve/<user>')
 def solve_question(score=None, user =None):
+    if 'user_email' not in session:
+        return redirect('/')
     if user !=None:
         sql = """ SELECT q_id, content FROM question WHERE content IS NOT NULL AND q_user_id ={q_user_id}  ORDER BY RAND() LIMIT 10;""".format(q_user_id=user)
 
@@ -151,7 +159,7 @@ def solve_question(score=None, user =None):
         parsed.append(parse_question(i))
 
 
-    return render_template('question_solve.html',result =parsed ,answer_list = answer_list ,score = score)
+    return render_template('question_solve.html',result =parsed ,answer_list = answer_list ,score = score, user_id =session['user_id'])
 
 
 # 문제 빈칸 파싱 함수
@@ -221,7 +229,7 @@ def grade(answer=None):
 
 
 if __name__ == '__main__':
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@localhost/studyblank' ##서버의 db설정으로 변경 필요
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://test:passwd@localhost/studyblank' ##서버의 db설정으로 변경 필요
 
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
@@ -237,5 +245,5 @@ if __name__ == '__main__':
     dbb.init_app(app)
     dbb.app = app
     dbb.create_all()  # SQLAlchemy 이용한 db 생성
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
 

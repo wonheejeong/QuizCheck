@@ -64,22 +64,16 @@
 <br><br><br><br>
 <center>
 <h2>오답노트 확인 페이지</h2>
-    <form method="POST" action="/incorrect_note">
-        <h5> 출력하고자 하는 사용자 번호를 입력하세요.</h5>
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-
-<input type="text" name="a_user_id">
-        <button type="submit">오답노트 확인하기</button>
-
-
-    </form>
+<br><br>
+    {%print(user_email)%} 님의 오답노트입니다. <br><br> 열공하세요 ༼ʘ̅͜ʘ̅༽
+    <br><br>
     <div>
         <p>
             {% if result ==None  %}
                         <h5>아직 아무 사용자도 입력이 안되었습니다. </h5>
 
             {% elif result|length ==0  %}
-        <h5>아직 {%print(a_user_id)%}번 사용자에 대한 오답노트가 없습니다. </h5>
+        <h5>아직 {%print(user_id)%}번 사용자에 대한 오답노트가 없습니다. </h5>
             {% else %}
 
           <table>
