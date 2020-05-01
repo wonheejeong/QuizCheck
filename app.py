@@ -66,7 +66,7 @@ def logout():
 # 문제만들기 화면
 @app.route('/question', methods=['GET','POST'])
 def db_insert_q():
-    if 'user_email' not in session:
+    if 'user_id' and 'user_email' not in session:
         return redirect('/')
     form = QuestionForm()
 
@@ -91,7 +91,7 @@ def db_insert_q():
 @app.route('/question/view')
 @app.route('/question/view/<int:q_user_id>')
 def view_question(q_user_id=None):
-    if 'user_email' not in session:
+    if 'user_id' and 'user_email' not in session:
         return redirect('/')
     if q_user_id ==None:
         sql = """SELECT * FROM question;"""
@@ -111,7 +111,7 @@ def view_question(q_user_id=None):
 
 @app.route('/incorrect_note/view')
 def view_incorrect_note():
-    if 'user_email' not in session:
+    if 'user_id' and 'user_email' not in session:
         return redirect('/')
     user_id = session['user_id']
     if user_id ==None:
@@ -138,9 +138,9 @@ def incorrect_note(a_user_id=None):
 
 # 문제 풀기
 @app.route('/question/solve')
-@app.route('/question/solve/<user>')
+@app.route('/question/solve/<int:user>')
 def solve_question(score=None, user =None):
-    if 'user_email' not in session:
+    if 'user_id' and 'user_email' not in session:
         return redirect('/')
     if user !=None:
         sql = """ SELECT q_id, content FROM question WHERE content IS NOT NULL AND q_user_id ={q_user_id}  ORDER BY RAND() LIMIT 10;""".format(q_user_id=user)
