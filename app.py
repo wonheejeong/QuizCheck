@@ -34,4 +34,4 @@ if __name__ == '__main__':
     dbb.init_app(app)
     dbb.app = app
     dbb.create_all()  # SQLAlchemy 이용한 db 생성
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='127.0.0.1', port=5000)
